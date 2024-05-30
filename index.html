@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <audio src=""></audio>
+    <div class="start_btn">
+      <button>Start Quiz</button>
+    </div>
+    <div class="info_box">
+      <div class="info_title">
+        <span>CÁCH CHƠI</span>
+      </div>
+      <div class="info-list">
+        <div class="info">
+          1. Bạn có <span>15 giây</span> để trả lời câu hỏi.
+        </div>
+        <div class="info">
+          2. Có câu có 1 đáp án, có câu có thể có nhiều đáp án.
+        </div>
+        <div class="info">
+          3. Nếu trả lời đúng bạn sẽ được 10 điểm, sai không được điểm nào.
+        </div>
+        <div class="info">
+          4. Lưu ý nếu chọn đúng thời gian 12s - 15s bạn sẽ được cộng thêm 5
+          điểm.
+        </div>
+        <div class="info">5. Hãy bắt đầu và chinh phục thử thách thôi.</div>
+      </div>
+      <div class="buttons">
+        <button class="quit">Exit Quiz</button>
+        <button class="restart">Continue</button>
+      </div>
+    </div>
+
+    <div class="quiz_box">
+      <div class="quiz_header">
+        <div class="title">Funny Quiz App</div>
+        <div class="timer">
+          <div class="time_left_txt">Time Left</div>
+          <div class="timer_sec">15</div>
+          <div class="time_line"></div>
+        </div>
+      </div>
+      <div class="quiz_body">
+        <div class="que_text"></div>
+        <div class="option_list"></div>
+      </div>
+
+      <div class="quiz_end">
+        <div class="total_que"></div>
+        <button class="next_btn">Next Question</button>
+      </div>
+    </div>
+    <div class="result_box">
+      <div class="icon">
+        <i class="fas fa-crown"></i>
+      </div>
+      <div class="complete_text">You've completed the Quiz!</div>
+      <div class="score_text"></div>
+      <div class="buttons">
+        <button class="restart">Replay Quiz</button>
+      </div>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
