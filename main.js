@@ -96,10 +96,6 @@ async function getData() {
       let userAnswer = e.target.textContent;
       let correctAnswer = data[index].answer;
 
-      setTimeout(() => {
-        nextBtn.classList.add("show");
-      }, 700);
-
       Array.from(e.target.parentElement.children).forEach((answer) =>
         answer.classList.add("disabled")
       );
@@ -132,6 +128,10 @@ async function getData() {
       if (+timeEl.textContent >= 12 && +timeEl.textContent <= 15 && isCorrect) {
         bonus += 5;
       }
+
+      setTimeout(() => {
+        nextBtn.classList.add("show");
+      }, 800);
     }
 
     if (
@@ -157,10 +157,6 @@ async function getData() {
           answer.classList.add("disabled")
         );
 
-        setTimeout(() => {
-          nextBtn.classList.add("show");
-        }, 700);
-
         const answerCorrect = Array.from(
           e.target.parentElement.children
         ).filter(
@@ -174,6 +170,10 @@ async function getData() {
           answer.classList.add("correct");
           answer.innerHTML = answer.textContent + correctEl;
         });
+
+        setTimeout(() => {
+          nextBtn.classList.add("show");
+        }, 800);
       }
 
       if (correctAnswer.includes(userAnswer)) {
