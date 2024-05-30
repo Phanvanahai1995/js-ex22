@@ -98,7 +98,7 @@ async function getData() {
 
       setTimeout(() => {
         nextBtn.classList.add("show");
-      }, 500);
+      }, 700);
 
       Array.from(e.target.parentElement.children).forEach((answer) =>
         answer.classList.add("disabled")
@@ -159,7 +159,7 @@ async function getData() {
 
         setTimeout(() => {
           nextBtn.classList.add("show");
-        }, 500);
+        }, 700);
 
         const answerCorrect = Array.from(
           e.target.parentElement.children
