@@ -19,6 +19,9 @@ button {
 
 body {
   background: var(--primary-color);
+  /* background-image: url(https://plus.unsplash.com/premium_photo-1683121107354-804160f78eb8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  background-size: cover;
+  background-repeat: no-repeat; */
 }
 
 .start_btn,
@@ -129,7 +132,7 @@ body {
 }
 
 .quiz_box {
-  width: 550px;
+  width: 800px;
   background: #fff;
   border-radius: 5px;
   display: none;
@@ -211,10 +214,13 @@ body {
 
 .quiz_body .option_list {
   padding: 20px 0px;
-  display: block;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .quiz_body .option_list .option {
+  height: 50px;
   background: aliceblue;
   border: 1px solid #84c5fe;
   border-radius: 5px;
