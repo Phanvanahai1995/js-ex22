@@ -71,6 +71,7 @@ async function getData() {
     }
   });
 
+  // Restart Quiz
   restartEl.addEventListener("click", function () {
     index = 0;
     correctAnswerUser = 0;
@@ -95,7 +96,9 @@ async function getData() {
       let userAnswer = e.target.textContent;
       let correctAnswer = data[index].answer;
 
-      nextBtn.classList.add("show");
+      setTimeout(() => {
+        nextBtn.classList.add("show");
+      }, 500);
 
       Array.from(e.target.parentElement.children).forEach((answer) =>
         answer.classList.add("disabled")
@@ -154,7 +157,9 @@ async function getData() {
           answer.classList.add("disabled")
         );
 
-        nextBtn.classList.add("show");
+        setTimeout(() => {
+          nextBtn.classList.add("show");
+        }, 500);
 
         const answerCorrect = Array.from(
           e.target.parentElement.children
@@ -198,15 +203,11 @@ async function getData() {
       }
     }
   });
-
-  if (timerValue === 0) {
-    const answers = quizContainer.querySelectorAll(".option");
-    console.log(answers);
-  }
 }
 
 getData();
 
+// function render answer to questions
 function showQuestions(index, questions) {
   const question = document.querySelector(".que_text");
 
@@ -222,6 +223,7 @@ function showQuestions(index, questions) {
   answers.innerHTML = answerHtml;
 }
 
+// function show result quiz finish
 function showResult() {
   boxEl.classList.remove("active");
   quizBox.classList.remove("active");
@@ -235,6 +237,7 @@ function showResult() {
   scoreEl.innerHTML = scoreHtml;
 }
 
+// function render point and choose correct answer
 function renderCountQuestions(index, questions) {
   const counterQuestions = quizBox.querySelector(".total_que");
   let totalQuestion = `<span>${index + 1}<p></p>of<p>${
@@ -243,6 +246,7 @@ function renderCountQuestions(index, questions) {
   counterQuestions.innerHTML = totalQuestion;
 }
 
+// function set run time
 function startTimer(time, data) {
   timer = setInterval(() => {
     --time;
@@ -294,6 +298,7 @@ function startTimer(time, data) {
   }, 1000);
 }
 
+// function run time
 function handleTimer(data) {
   clearInterval(timer);
   timeEl.textContent = 15;
@@ -302,6 +307,7 @@ function handleTimer(data) {
   startTimer(timerValue, data);
 }
 
+// function convert VN ==> unicode
 function convertVn(str) {
   return str
     .normalize("NFD")
