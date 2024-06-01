@@ -3,7 +3,6 @@ import { serverApi } from "./config.js";
 const startBtn = document.querySelector(".start_btn button");
 const boxEl = document.querySelector(".info_box");
 const quizBox = document.querySelector(".quiz_box");
-const quizContainer = document.querySelector(".quiz_body");
 const nextBtn = document.querySelector(".next_btn");
 const exitBtn = document.querySelector(".buttons .quit");
 const continueBtn = document.querySelector(".buttons .restart");
@@ -15,13 +14,13 @@ const answers = document.querySelector(".option_list");
 const restartEl = resultEl.querySelector(".restart");
 
 let index = 0;
-let correctAnswerUser = 0;
 let timer;
 let timerValue = 15;
 let score = 0;
 let bonus = 0;
 let isCorrect = false;
 let userAnswers = [];
+let stateUser = [];
 
 let correctEl = `<div class="icon tick"><i class="fas fa-check"></i></div>`;
 let incorrectEl = `<div class="icon cross"><i class="fas fa-times"></i></div>`;
@@ -65,6 +64,10 @@ async function getData() {
       renderCountQuestions(index, data);
       handleTimer(data);
 
+      if (index === data.length - 1) {
+        this.innerText = "Finish";
+      }
+
       this.classList.remove("show");
     } else {
       showResult();
@@ -74,15 +77,16 @@ async function getData() {
   // Restart Quiz
   restartEl.addEventListener("click", function () {
     index = 0;
-    correctAnswerUser = 0;
     timer;
     timerValue = 15;
     score = 0;
     bonus = 0;
     isCorrect = false;
     userAnswers = [];
+    stateUser = [];
     resultEl.classList.remove("active");
     startBtn.classList.remove("hide");
+    nextBtn.innerText = "Next Question";
   });
 
   // Check and choose answer event
@@ -111,13 +115,14 @@ async function getData() {
       if (convertVn(userAnswer) === convertVn(correctAnswer)) {
         isCorrect = true;
         score += 10;
-        correctAnswerUser++;
+        stateUser.push("correct");
 
         audio.setAttribute("src", "./audio/correct-answer.mp3");
         audio.play();
         e.target.classList.add("correct");
         e.target.innerHTML = e.target.textContent + correctEl;
       } else {
+        stateUser.push("incorrect");
         isCorrect = false;
         e.target.classList.add("incorrect");
         e.target.insertAdjacentHTML("beforeend", incorrectEl);
@@ -195,11 +200,15 @@ async function getData() {
         bonus += 5;
       }
 
-      if (
-        userAnswers.includes(correctAnswer[0]) &&
-        userAnswers.includes(correctAnswer[1])
-      ) {
-        correctAnswerUser++;
+      if (userAnswers.length === 2) {
+        if (
+          userAnswers.includes(correctAnswer[0]) &&
+          userAnswers.includes(correctAnswer[1])
+        ) {
+          stateUser.push("correct");
+        } else {
+          stateUser.push("incorrect");
+        }
       }
     }
   });
@@ -229,10 +238,18 @@ function showResult() {
   quizBox.classList.remove("active");
   resultEl.classList.add("active");
 
+  const numberCorrect = stateUser.filter(
+    (answer) => answer === "correct"
+  ).length;
+  const numberInCorrect = stateUser.filter(
+    (answer) => answer === "incorrect"
+  ).length;
+  const passNumber = stateUser.filter((answer) => answer === null).length;
+
   const scoreEl = resultEl.querySelector(".score_text");
-  let scoreHtml = `<span>You answer correct ${correctAnswerUser}/${
-    index + 1
-  } and you get ${score + bonus}points`;
+  let scoreHtml = `<span>Bạn đã trả lời đúng ${numberCorrect} câu hỏi, không trả lời đúng ${numberInCorrect} câu hỏi, không trả lời ${passNumber} câu hỏi và bạn dành được ${
+    score + bonus
+  }points`;
 
   scoreEl.innerHTML = scoreHtml;
 }
@@ -256,6 +273,7 @@ function startTimer(time, data) {
     timeLine.style.width = `${percent}%`;
 
     if (time <= 0) {
+      stateUser.push(null);
       const answerArr = answers.children;
       Array.from(answerArr).forEach((answer) =>
         answer.classList.add("disabled")
