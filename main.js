@@ -18,6 +18,8 @@ let timer;
 let timerValue = 15;
 let score = 0;
 let bonus = 0;
+let streak = 0;
+let countStreak = 0;
 let isCorrect = false;
 let userAnswers = [];
 let stateUser = [];
@@ -117,6 +119,8 @@ async function getData() {
         score += 10;
         stateUser.push("correct");
 
+        handleStreak(stateUser, data);
+
         audio.setAttribute("src", "./audio/correct-answer.mp3");
         audio.play();
         e.target.classList.add("correct");
@@ -206,6 +210,7 @@ async function getData() {
           userAnswers.includes(correctAnswer[1])
         ) {
           stateUser.push("correct");
+          handleStreak(stateUser, data);
         } else {
           stateUser.push("incorrect");
         }
@@ -247,8 +252,10 @@ function showResult() {
   const passNumber = stateUser.filter((answer) => answer === null).length;
 
   const scoreEl = resultEl.querySelector(".score_text");
-  let scoreHtml = `<span>Bạn đã trả lời đúng ${numberCorrect} câu hỏi, không trả lời đúng ${numberInCorrect} câu hỏi, không trả lời ${passNumber} câu hỏi và bạn dành được ${
-    score + bonus
+  let scoreHtml = `<span>Bạn đã trả lời đúng ${numberCorrect} câu hỏi ${
+    countStreak && `trả lời đúng ${countStreak}`
+  }, không trả lời đúng ${numberInCorrect} câu hỏi, không trả lời ${passNumber} câu hỏi và bạn dành được ${
+    score + bonus + streak
   }points`;
 
   scoreEl.innerHTML = scoreHtml;
@@ -332,4 +339,45 @@ function convertVn(str) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/đ/g, "d")
     .replace(/Đ/g, "D");
+}
+
+// Function streak
+function handleStreak(userAnswers, data) {
+  const answerCorrectsStreak = userAnswers.filter(
+    (answer, index) =>
+      answer === userAnswers[index] &&
+      answer === userAnswers[index + 1] &&
+      answer === "correct"
+  ).length;
+
+  if (answerCorrectsStreak === 1) {
+    streak = 10;
+    countStreak = "2 câu liên tiếp";
+  }
+
+  if (
+    answerCorrectsStreak === 2 &&
+    userAnswers[Math.round(data.length / 2) - 1] !== "correct"
+  ) {
+    streak = 20;
+    countStreak = "2 lần 2 câu liên tiếp";
+  }
+
+  if (
+    answerCorrectsStreak === 2 &&
+    userAnswers[Math.round(data.length / 2) - 1] === "correct"
+  ) {
+    streak = 30;
+    countStreak = "3 lần liên tiếp";
+  }
+
+  if (answerCorrectsStreak === 3) {
+    streak = 40;
+    countStreak = "4 câu liên tiếp";
+  }
+
+  if (answerCorrectsStreak === 4) {
+    streak = 50;
+    countStreak = "5 câu liên tiếp";
+  }
 }
